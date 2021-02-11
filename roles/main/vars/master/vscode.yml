@@ -1,0 +1,18 @@
+---
+vscode_pacman_pkgs:
+  - code # The Open Source build of Visual Studio Code (vscode) editor
+  - protobuf # Protocol Buffers - Google's data interchange format (required by proto plugin)
+  - clang # C language family frontend for LLVM (provides 'clang-format' required by proto plugin)
+
+vscode_dirs_user:
+  - "{{ user_home }}/.config/Code - OSS/User"
+
+vscode_dotfiles_user:
+  - {
+      src: "{{ sugar_dotfiles }}/vscode/settings.json",
+      dest: "{{ user_home }}/.config/Code - OSS/User/settings.json",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/vscode/keybindings.json",
+      dest: "{{ user_home }}/.config/Code - OSS/User/keybindings.json",
+    }

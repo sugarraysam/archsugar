@@ -1,0 +1,19 @@
+---
+- name: Create directory structure (root)
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: true
+  loop: "{{ dirs_root }}"
+
+- name: User commands
+  block:
+    - name: Create directory structure (user)
+      file:
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+      loop: "{{ dirs_user }}"
+
+  become: true
+  become_user: "{{ user }}"

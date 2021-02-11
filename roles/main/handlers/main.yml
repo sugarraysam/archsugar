@@ -1,0 +1,20 @@
+---
+# tasks/master/docker.yml
+- name: stop dockerd
+  systemd:
+    name: docker
+    state: stopped
+
+# tasks/master/pacman.yml
+- name: pacman upgrade
+  command:
+    cmd: pacman --noconfirm -q -Syu
+  changed_when: true # always trigger handler
+  notify: restart message
+
+- name: restart message
+  debug:
+    msg:
+      - < Please reboot your system! >
+      - < Please reboot your system! >
+      - < Please reboot your system! >

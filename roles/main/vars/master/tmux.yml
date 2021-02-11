@@ -1,0 +1,20 @@
+---
+tmux_pacman_pkgs:
+  - tmux
+
+tmux_dirs_user:
+  - "{{ user_home }}/.tmux/plugins"
+  - "{{ user_home }}/.tmux/resurrect"
+
+tmux_dotfiles_user:
+  - {
+      src: "{{ sugar_dotfiles }}/tmux/tmux.conf",
+      dest: "{{ user_home }}/.tmux.conf",
+    }
+
+tmux_git_repos:
+  - {
+      repo: "https://github.com/tmux-plugins/tpm",
+      dest: "{{ user_home }}/.tmux/plugins/tpm",
+      version: master,
+    }

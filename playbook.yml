@@ -1,0 +1,43 @@
+---
+- name: Archsugar
+  hosts: "{{ target }}"
+  gather_facts: true
+  become: true
+  become_user: root
+  force_handlers: true
+
+  vars:
+    # ansible
+    ansible_python_interpreter: /usr/bin/python3
+
+    # sugar
+    sugar_repo_version: "dev"
+    sugar_repo: "https://github.com/sugarraysam/archsugar"
+    sugar_basedir: "{{ user_home }}/.archsugar"
+    sugar_enabled_dir: "{{ user_home }}/.archsugar/roles/main/tasks/master/enabled"
+    sugar_dotfiles: "{{ sugar_basedir }}/dotfiles"
+    sugar_scenarios: "{{ lookup('env', 'SUGAR_SCENARIOS') | default('all', true) }}"
+    sugar_stage: "{{ lookup('env', 'SUGAR_STAGE') }}"
+    sugar_vagrant: "{{ lookup('env', 'SUGAR_VAGRANT') | default(false, true) }}"
+    sugar_isvm: false
+
+    # user
+    user: "{{ lookup('env', 'SUGAR_USER') | default('sugar', true) }}"
+    user_groups:
+      - wheel
+      - uucp
+    user_home: "/home/{{ user }}"
+    user_TODO: "{{ user_home }}/TODO"
+
+    # general
+    timezone: "America/Chicago"
+    hostname: "htp"
+    keymap: "us"
+    google: "https://google.com"
+
+    # git
+    git_username: sugarraysam
+    git_email: samuel.blaisdowdy@protonmail.com
+
+  roles:
+    - role: main

@@ -1,0 +1,10 @@
+###
+### For more information:
+###     -> Arch wiki - https://wiki.archlinux.org/index.php/Systemd-boot#Adding_loaders
+###     -> (5) man page
+###
+title   Arch Sugar
+linux   /vmlinuz-linux
+initrd  {{ bootstrap_cpu_manufacturer }}-ucode.img
+initrd  /initramfs-linux.img
+options cryptdevice=PARTUUID={{ bootstrap_rootpart_uuid }}:{{ bootstrap_luks }} root=/dev/mapper/{{ bootstrap_luks }}

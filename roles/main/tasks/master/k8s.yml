@@ -1,0 +1,32 @@
+# Install k8s tooling
+---
+- include_vars: master/k8s.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ k8s_pacman_pkgs }}"
+    dirs_user: "{{ k8s_dirs_user }}"
+    remote_bin: "{{ k8s_remote_bin }}"
+    remote_bin_archives: "{{ k8s_remote_bin_archives }}"
+
+- name: User commands
+  block:
+    - name: Install krew with krew
+      command:
+        cmd: krew install krew
+        creates: "{{ user_home }}/.krew/bin/*"
+
+    - name: Remove old krew binary
+      file:
+        path: "{{ user_home }}/.local/bin/krew"
+        state: absent
+
+    - name: Update krew
+      command:
+        cmd: kubectl krew update
+
+  become: true
+  become_user: "{{ user }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ user_home }}/.krew/bin"

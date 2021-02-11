@@ -1,0 +1,50 @@
+---
+blackarch_pacman_pkgs:
+  - gef # Multi-Architecture GDB Enhanced Features for Exploiters & Reverse-Engineers
+  - gobuster # Directory/file & DNS busting tool written in Go
+  - burpsuite # An integrated platform for attacking web applications (free edition)
+  - dnsrecon # Python script for enumeration of hosts, subdomains and emails from a given domain using google
+  - metasploit # Advanced open-source platform for developing, testing, and using exploit code
+  - rkhunter # Checks machines for the presence of rootkits and other unwanted tools
+  - binwalk # A tool for searching a given binary image for embedded files
+  - steghide # Embeds a message in a file by replacing some of the least significant bits
+  - radare2 # Open-source tools to disasm, debug, analyze and manipulate binary files
+  - exploitdb # Offensive Security’s Exploit Database Archive
+  - sqlmap # Automatic SQL injection and database takeover tool
+  - sublist3r # A Fast subdomains enumeration tool for penetration testers
+  - aircrack-ng # Graphing tool for the aircrack suite
+
+blackarch_dirs_user:
+  - "{{ user_home }}/opt/blackarch"
+
+blackarch_dotfiles_user:
+  - {
+      src: "{{ sugar_dotfiles }}/blackarch/gdbinit",
+      dest: "{{ user_home }}/.gdbinit",
+    }
+
+blackarch_git_repos:
+  - {
+      repo: "https://github.com/swisskyrepo/PayloadsAllTheThings.git",
+      dest: "{{ user_home }}/opt/blackarch/PayloadsAllTheThings",
+      version: "master",
+    }
+  - {
+      repo: "https://github.com/danielmiessler/SecLists.git",
+      dest: "{{ user_home }}/opt/blackarch/SecLists",
+      version: "master",
+    }
+
+###
+### Init variables
+###
+blackarch_url: "https://www.blackarch.org"
+
+blackarch_keyring_url: "{{ blackarch_url }}/keyring"
+blackarch_keyring_filename: "blackarch-keyring.pkg.tar.xz"
+
+blackarch_pubkey: "4345771566D76038C7FEB43863EC0ADBEA87E4E3"
+blackarch_keyserver: "hkp://pool.sks-keyservers.net"
+
+blackarch_mirrorlist_url: "{{ blackarch_url }}/blackarch-mirrorlist"
+blackarch_mirrorlist_path: "/etc/pacman.d/blackarch-mirrorlist"

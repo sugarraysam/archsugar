@@ -1,0 +1,28 @@
+# Set default to empty lists, to make all vars optional
+---
+pacman_pkgs: []
+
+# Directories to create
+dirs_root: []
+dirs_user: []
+
+# Dotfiles to symlink
+# { src: <src>, dest: <dest> }
+dotfiles_user: []
+dotfiles_root: []
+
+files_to_remove: []
+
+# Download and extract binaries from url archive
+# use '%%; token inside urlfmt, will be replaced with item.version
+# { name: <binary_name>, version: <version>, urlfmt: <url> }
+remote_bin_archives: []
+
+# Download binary that is not an archive
+# use '%%; token inside urlfmt, will be replaced with item.version
+# { name: <binary_name>, version: <version>, urlfmt: <url> }
+remote_bin: []
+
+# Clone git repos
+# { repo: <repo>, dest: <dest>, version: <branch/tag> }
+git_repos: []

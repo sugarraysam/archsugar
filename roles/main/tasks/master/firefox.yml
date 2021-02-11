@@ -1,0 +1,46 @@
+# Setup firefox profile
+---
+- include_vars: master/firefox.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ firefox_pacman_pkgs }}"
+
+- name: User commands
+  block:
+    # makes sure "{{ user_home }}/.mozilla/firefox/XXXXXXXX.default-release" exists
+    - name: Create default profile
+      command:
+        cmd: firefox --headless -CreateProfile default-release
+      changed_when: false
+
+    - name: Register firefox_profile_path
+      block:
+        - name: Find profile path
+          find:
+            paths: "{{ user_home }}/.mozilla/firefox"
+            file_type: directory
+            patterns: "*.default-release"
+          register: firefox_profile_path
+
+        - name: Extract path
+          set_fact:
+            firefox_profile_path: "{{ firefox_profile_path.files[0].path }}"
+
+    # Hardcoded because requires dynamic {{ firefox_profile_path }}
+    - name: Symlink firefox configurations
+      file:
+        src: "{{ sugar_dotfiles }}/firefox/user.js"
+        dest: "{{ firefox_profile_path }}/user.js"
+        state: link
+        force: true # overwrite existing file
+
+    # https://wiki.archlinux.org/index.php/Xdg-utils#Set_the_default_browser
+    - name: Set firefox as default browser
+      command:
+        cmd: xdg-settings set default-web-browser firefox.desktop
+      ignore_errors: true
+
+  become: true
+  become_user: "{{ user }}"

@@ -1,0 +1,29 @@
+# Configure rust
+---
+- include_vars: master/rust.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ rust_pacman_pkgs }}"
+    dirs_user: "{{ rust_dirs_user }}"
+
+- name: User commands for rust
+  block:
+    - name: Install rustup toolchains
+      command:
+        cmd: "rustup toolchain install {{ item }}"
+      loop:
+        - stable
+        - nightly
+
+    - name: Install rustup components
+      command:
+        cmd: "rustup component add {{ item.name }} --toolchain {{ item.toolchain }}"
+      loop:
+        - { name: rustfmt, toolchain: stable }
+        - { name: rls, toolchain: stable }
+        - { name: rust-src, toolchain: nightly }
+
+  become: true
+  become_user: "{{ user }}"

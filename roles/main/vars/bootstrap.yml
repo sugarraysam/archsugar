@@ -1,0 +1,36 @@
+---
+bootstrap_disk: "{{ lookup('env', 'SUGAR_DISK') }}"
+bootstrap_luks: "sugarcrypt"
+bootstrap_luks_passwd: "{{ lookup('env', 'SUGAR_LUKS_PASSWD') }}"
+bootstrap_pacman_pkgs:
+  - base
+  - base-devel
+  - linux
+  - linux-firmware
+  - mkinitcpio
+  - git
+  - curl
+  - reflector
+  - python
+  - ansible
+  - networkmanager
+  - dhclient
+  - zsh
+  - gnupg
+  - vim
+  - vi
+  - tmux
+  - xclip
+  - man
+bootstrap_mkinitcpio_hooks:
+  - base
+  - udev
+  - autodetect
+  - keyboard
+  - keymap
+  - consolefont
+  - modconf
+  - block
+  - encrypt
+  - filesystems
+  - fsck

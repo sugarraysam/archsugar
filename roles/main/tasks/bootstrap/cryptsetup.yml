@@ -1,0 +1,22 @@
+---
+- name: Create luks keyfile in memory
+  copy:
+    dest: "/dev/shm/keyfile"
+    mode: "0644"
+    content: "{{ bootstrap_luks_passwd }}"
+
+- name: Create and Open LUKS encrypted root partition
+  luks_device:
+    device: "{{ bootstrap_rootpart }}"
+    state: opened
+    name: "{{ bootstrap_luks }}"
+    keyfile: "/dev/shm/keyfile"
+
+- name: Set encrypted root partition name
+  set_fact:
+    bootstrap_cryptpart: "/dev/mapper/{{ bootstrap_luks }}"
+
+- name: Remove luks keyfile from target
+  file:
+    path: "/dev/shm/keyfile"
+    state: absent

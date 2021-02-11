@@ -1,0 +1,13 @@
+# VScode
+.vscode/
+
+# Python venv
+.venv/
+
+# Testinfra files
+__pycache__
+pytestdebug.log
+
+# credential cache
+vault_password_file.sh
+group_vars/all.yml

@@ -1,0 +1,36 @@
+---
+# Using relaxed config
+# https://yamllint.readthedocs.io/en/stable/configuration.html
+extends: default
+
+yaml-files:
+  - "*.yaml"
+  - "*.yml"
+
+ignore: |
+  .venv/
+  .linters/*
+
+rules:
+  braces:
+    level: warning
+    max-spaces-inside: 1
+  brackets:
+    level: warning
+    max-spaces-inside: 1
+  colons:
+    level: warning
+  commas:
+    level: warning
+  comments: disable
+  comments-indentation: disable
+  document-start: disable
+  empty-lines:
+    level: warning
+  hyphens:
+    level: warning
+  indentation: disable
+  line-length: disable
+  truthy: disable
+
+locale: en_US.UTF-8

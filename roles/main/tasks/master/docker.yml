@@ -1,0 +1,32 @@
+# Manage local docker daemon
+---
+- include_vars: master/docker.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ docker_pacman_pkgs }}"
+    remote_bin: "{{ docker_remote_bin }}"
+
+- name: Add user to docker group
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: true
+
+- name: Start and enable docker daemon
+  systemd:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Remove unused containers, images & volumes
+  docker_prune:
+    containers: true
+    containers_filters:
+      until: 24h
+    images: true
+    images_filters:
+      until: 168h # 168h == 1 week
+      dangling: true
+    volumes: true

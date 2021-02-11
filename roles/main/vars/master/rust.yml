@@ -1,0 +1,7 @@
+---
+rust_pacman_pkgs:
+  - rustup # The Rust toolchain installer
+  - arduino-avr-core # Arduino AVR core with upstream avr-gcc and avrdude
+
+rust_dirs_user:
+  - "{{ user_home }}/.cargo"

@@ -1,0 +1,26 @@
+# Configure ruby
+---
+- include_vars: master/ruby.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ ruby_pacman_pkgs }}"
+
+- name: User commands for ruby
+  block:
+    - name: Install or Update favorite gems
+      community.general.gem:
+        name: "{{ item }}"
+        state: latest
+        user_install: true
+      loop: "{{ ruby_gems }}"
+
+    - name: Clean old gems
+      command:
+        cmd: "gem cleanup"
+        chdir: "{{ user_home }}"
+      changed_when: false
+
+  become: true
+  become_user: "{{ user }}"

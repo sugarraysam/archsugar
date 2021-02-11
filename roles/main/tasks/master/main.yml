@@ -1,0 +1,17 @@
+---
+- name: Run all enabled scenarios
+  block:
+    - name: Register scenarios
+      command:
+        cmd: "ls {{ sugar_enabled_dir }}"
+      register: master_enabled
+
+    - name: Run all enabled scenarios
+      include_tasks: "{{ sugar_enabled_dir }}/{{ item }}"
+      loop: "{{ master_enabled.stdout_lines }}"
+  when: sugar_scenarios == 'all'
+
+- name: Run some of the enabled scenarios
+  include_tasks: "{{ sugar_enabled_dir }}/{{ item }}.yml"
+  loop: "{{ sugar_scenarios.split(',') }}"
+  when: sugar_scenarios != 'all'

@@ -1,0 +1,12 @@
+---
+exclude_paths:
+  - .venv/
+  - ./roles/main/tasks/master/enabled
+  - .linters/
+skip_list:
+  - "role-name" # Role name .archsugar does not match ``^[a-z][a-z0-9_]+$`` pattern
+  - "risky-file-permissions" # File permissions not mentioned
+  - "no-changed-when" # Commands should not change things if nothing needs doing
+  - "204" # Lines should be no longer than 160 chars
+verbosity: 1
+force-color: 1

@@ -1,0 +1,63 @@
+# Configure systemd, autologin, git, gpg, etc.
+---
+- include_vars: master/base.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ base_pacman_pkgs }}"
+    dirs_root: "{{ base_dirs_root }}"
+    dirs_user: "{{ base_dirs_user }}"
+    dotfiles_user: "{{ base_dotfiles_user }}"
+    dotfiles_root: "{{ base_dotfiles_root }}"
+    files_to_remove: "{{ base_files_to_remove }}"
+
+- name: Run systemd configuration commands
+  command:
+    cmd: "{{ item }}"
+  loop:
+    - "timedatectl set-timezone {{ timezone }}"
+    - "timedatectl set-ntp true"
+    - "hostnamectl set-hostname {{ hostname }}"
+    - "localectl set-keymap {{ keymap }}"
+
+- name: Configure autologin on getty@tty1.service
+  block:
+    - name: Copy systemd file
+      template:
+        src: templates/master/base/autologin.conf.j2
+        dest: /etc/systemd/system/getty@tty1.service.d/autologin.conf
+
+    - name: Enable service
+      systemd:
+        name: getty@tty1.service
+        enabled: true
+
+- name: User commands
+  block:
+    # requires python setuptools
+    - name: Update tldr cache
+      command:
+        cmd: tldr -u
+      register: result
+      changed_when: "'Updated cache for' in result.stdout"
+
+    - name: Configure git
+      git_config:
+        scope: global
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+      loop:
+        - { name: user.name, value: "{{ git_username }}" }
+        - { name: user.email, value: "{{ git_email }}" }
+        - { name: merge.conflictstyle, value: diff3 }
+        - { name: branch.autosetuprebase, value: always }
+
+    - name: Set permissions on ~/.gnupg
+      file:
+        path: "{{ user_home }}/.gnupg"
+        state: directory
+        mode: "0700"
+
+  become: true
+  become_user: "{{ user }}"

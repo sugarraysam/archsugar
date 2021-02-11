@@ -1,0 +1,27 @@
+---
+k8s_pacman_pkgs:
+  - kubectl # Kubernetes.io client binary
+  - k9s # TUI for managing Kubernetes clusters and pods\
+  - helm # The Kubernetes Package Manager
+
+k8s_dirs_user:
+  - "{{ user_home }}/.kube"
+
+k8s_remote_bin:
+  - {
+      name: kind,
+      version: "0.10.0",
+      urlfmt: "https://github.com/kubernetes-sigs/kind/releases/download/v%%/kind-linux-amd64",
+    }
+  - {
+      name: skaffold,
+      version: "1.19.0",
+      urlfmt: "https://storage.googleapis.com/skaffold/releases/v%%/skaffold-linux-amd64",
+    }
+
+k8s_remote_bin_archives:
+  - {
+      name: krew,
+      version: "latest",
+      urlfmt: "https://github.com/kubernetes-sigs/krew/releases/%%/download/krew.tar.gz"
+    }

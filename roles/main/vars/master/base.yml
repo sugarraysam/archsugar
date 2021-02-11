@@ -1,0 +1,53 @@
+---
+base_pacman_pkgs:
+  - shfmt # Format shell programs (required by VScode extension)
+  - shellcheck # Shell script analysis tool (required by VScode extension)
+  - git # the fast distributed version control system
+  - gnupg # Complete and free implementation of the OpenPGP
+  - gopass # The slightly more awesome standard unix password manager for teams
+  - pinentry # Collection of simple PIN or passphrase entry dialogs which utilize the Assuan protocol
+  - openssh # Premier connectivity tool for remote login with the SSH protocol
+  - keychain # A front-end to ssh-agent, allowing one long-running ssh-agent process per system, rather than per login
+
+base_dirs_user:
+  - "{{ user_home }}/opt"
+  - "{{ user_home }}/dwl"
+  - "{{ user_home }}/perso"
+  - "{{ user_home }}/geek/test"
+  - "{{ user_home }}/bin"
+  - "{{ user_home }}/.local/bin"
+  - "{{ user_home }}/.debug"
+  - "{{ user_home }}/.backup/files"
+  - "{{ user_home }}/.config/gopass"
+  - "{{ user_home }}/.gnupg"
+  - "{{ user_home }}/.ssh"
+
+base_dirs_root:
+  - /etc/systemd/system/getty@tty1.service.d
+
+base_dotfiles_user:
+  - {
+      src: "{{ sugar_dotfiles }}/base/bible",
+      dest: "{{ user_home }}/geek/bible",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/base/gpg/gpg-agent.conf",
+      dest: "{{ user_home }}/.gnupg/gpg-agent.conf",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/base/gpg/gopass-config.yml",
+      dest: "{{ user_home }}/.config/gopass/config.yml",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/base/ssh/config",
+      dest: "{{ user_home }}/.ssh/config",
+    }
+
+base_dotfiles_root:
+  - { src: /usr/bin/pinentry-curses, dest: /usr/bin/pinentry }
+
+base_files_to_remove:
+  - "{{ user_home }}/.bash_logout"
+  - "{{ user_home }}/.bash_profile"
+  - "{{ user_home }}/.bashrc"
+  - "{{ user_home }}/Desktop"

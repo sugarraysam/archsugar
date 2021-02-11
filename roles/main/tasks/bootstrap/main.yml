@@ -1,0 +1,29 @@
+---
+- name: Load variables
+  include_vars: bootstrap.yml
+
+- name: Check variables
+  block:
+    - name: Check bootstrap_disk is set
+      fail:
+        msg: "Empty 'bootstrap_disk', please set SUGAR_DISK env var"
+      when: not bootstrap_disk
+
+    - name: Check bootstrap_luks_passwd is not default
+      fail:
+        msg: "'bootstrap_luks_passwd' is empty please set SUGAR_LUKS_PASSWD env var"
+      when: not bootstrap_luks_passwd
+
+- name: Run tasks required for bare installation only
+  include_tasks:
+    file: "bootstrap/{{ taskfile }}"
+  loop:
+    - partition.yml
+    - cryptsetup.yml
+    - mount.yml
+    - pacstrap.yml
+    - initramfs.yml
+    - bootloader.yml
+  loop_control:
+    loop_var: taskfile
+  when: not sugar_vagrant

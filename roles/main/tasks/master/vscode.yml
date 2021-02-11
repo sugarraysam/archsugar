@@ -1,0 +1,19 @@
+# install and configure vscode IDE
+---
+- include_vars: master/vscode.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ vscode_pacman_pkgs }}"
+    dirs_user: "{{ vscode_dirs_user }}"
+    dotfiles_user: "{{ vscode_dotfiles_user }}"
+
+- name: User commands
+  block:
+    - name: Install Settings-sync
+      command:
+        cmd: code --install-extension Shan.code-settings-sync
+
+  become: true
+  become_user: "{{ user }}"

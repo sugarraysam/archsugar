@@ -1,0 +1,21 @@
+---
+- name: Configure system languages
+  lineinfile:
+    path: /etc/locale.gen
+    regexp: "{{ lang.regexp }}"
+    line: "{{ lang.line }}"
+  loop:
+    - { regexp: "^en_CA.*$", line: "en_CA.UTF8 UTF-8" }
+    - { regexp: "^en_US.*$", line: "en_US.UTF8 UTF-8" }
+  loop_control:
+    loop_var: lang
+
+- name: Run locale-gen # noqa 301
+  command:
+    cmd: locale-gen
+
+- name: Configure system languages
+  lineinfile:
+    path: /etc/locale.conf
+    line: "LANG=en_US.UTF-8"
+    create: true

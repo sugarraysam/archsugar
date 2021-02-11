@@ -1,0 +1,13 @@
+---
+iptables_pacman_pkgs:
+  - iptables # Linux kernel packet control tool (using legacy interface)
+
+iptables_dotfiles_root:
+  - {
+      src: "{{ sugar_dotfiles }}/base/iptables/iptables.rules",
+      dest: "/etc/iptables/iptables.rules",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/base/iptables/ip6tables.rules",
+      dest: "/etc/iptables/ip6tables.rules",
+    }

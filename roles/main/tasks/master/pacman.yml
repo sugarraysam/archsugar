@@ -1,0 +1,34 @@
+# Manage pacman configs and packages
+---
+- include_vars: master/pacman.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ pacman_pacman_pkgs }}"
+
+- name: Clean pacman cache
+  command:
+    cmd: pacman --noconfirm -q -Sc
+  notify: pacman upgrade
+  changed_when: true # always trigger handler
+
+- name: Remove orphan pacman pkgs
+  block:
+    - name: Find orphan pacman pkgs
+      command:
+        cmd: pacman -Qtdq
+      register: pacman_orphan_pkgs
+      changed_when: false
+      failed_when: false
+
+    - name: Remove orphan pacman pkgs
+      command:
+        cmd: "pacman -Rns --noconfirm {{ pacman_orphan_pkgs.stdout_lines | join(' ') }}"
+      when: pacman_orphan_pkgs.stdout
+
+- name: Enable pacman colors
+  lineinfile:
+    dest: /etc/pacman.conf
+    regexp: "^#Color.*$"
+    line: "Color"

@@ -1,0 +1,104 @@
+# Add blackarch penetration testing and security research repositories
+---
+- include_vars: master/blackarch.yml
+
+- name: Check if blackarch repository exists # noqa 301
+  shell:
+    cmd: pacman -Sl blackarch >/dev/null 2>&1
+    warn: false
+  register: blackarch_exists
+  failed_when: false
+
+###
+### ----- START INIT BLOCK -----
+###   -> Only ran on first time
+###   -> steps taken from install script: https://www.blackarch.org/strap.sh
+###
+- name: Init block
+  block:
+    - name: Fetch keyring and signature
+      command:
+        cmd: "curl -Lk {{ blackarch_keyring_url }}/{{ item }} --retry 5 --silent -o /tmp/{{ item }}"
+        creates: "/tmp/{{ item }}"
+        warn: false
+      loop:
+        - "{{ blackarch_keyring_filename }}"
+        - "{{ blackarch_keyring_filename }}.sig"
+
+    - name: Check if Evan Teitelman's public key is in local keyring
+      command:
+        cmd: "gpg --list-keys {{ blackarch_pubkey }}"
+      register: blackarch_pubkey_exists
+      failed_when: false
+
+    - name: Download Evan Teitelman's public key
+      command:
+        cmd: "gpg --keyserver {{ blackarch_keyserver }} --recv-keys {{ blackarch_pubkey }}"
+      when: blackarch_pubkey_exists.rc != 0
+      register: result
+      until: result.stderr_lines[0].find('imported') != -1
+      retries: 3
+      delay: 5
+
+    - name: Verify Evan Teitelman's keyring signature
+      command:
+        cmd: "gpg --keyserver-options no-auto-key-retrieve --with-fingerprint {{ blackarch_keyring_filename }}.sig"
+        chdir: /tmp
+
+      # IMPORTANT - Remove keyring signature BEFORE installing keyring
+    - name: Remove keyring signature
+      file:
+        path: "/tmp/{{ blackarch_keyring_filename }}.sig"
+        state: absent
+
+    - name: Install keyring
+      command:
+        cmd: "pacman --config /dev/null --noconfirm -U {{ blackarch_keyring_filename }}"
+        chdir: /tmp
+
+    - name: Populate keyring
+      command:
+        cmd: pacman-key --populate blackarch
+
+    - name: Remove keyring file
+      file:
+        path: "/tmp/{{ blackarch_keyring_filename }}"
+        state: absent
+
+    - name: Download blackarch-mirrorlist
+      get_url:
+        url: "{{ blackarch_mirrorlist_url }}"
+        dest: "{{ blackarch_mirrorlist_path }}"
+
+    - name: Uncomment all https USA mirrors
+      replace:
+        path: "{{ blackarch_mirrorlist_path }}"
+        after: "# USA"
+        before: "# Vietnam"
+        regexp: "^# (Server = https.+)$"
+        replace: '\1'
+
+    - name: Add blackarch-mirrorlist to pacman.conf
+      blockinfile:
+        path: /etc/pacman.conf
+        insertafter: EOF
+        block: |
+          [blackarch]
+          Include = {{ blackarch_mirrorlist_path }}
+
+    - name: Update pacman
+      command:
+        cmd: pacman --noconfirm -q -Syu
+
+  when: blackarch_exists.rc != 0
+###
+### ----- END INIT BLOCK -----
+###
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ blackarch_pacman_pkgs }}"
+    dirs_user: "{{ blackarch_dirs_user }}"
+    dotfiles_user: "{{ blackarch_dotfiles_user }}"
+    git_repos: "{{ blackarch_git_repos }}"

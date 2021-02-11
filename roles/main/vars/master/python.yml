@@ -1,0 +1,18 @@
+---
+python_pacman_pkgs:
+  - python # Next generation of the python high-level scripting language
+  - pyenv # Easily switch between multiple versions of Python
+  - tk # (matplotlib) A windowing toolkit for use with tcl
+  - imagemagick # (matplotlib) An image viewing/manipulation program
+
+python_files_to_remove:
+  - "{{ user_home }}/.cache/pipenv"
+  - "{{ user_home }}/.cache/pip"
+
+python_pkgs:
+  - pip
+  - pipenv
+  - wheel
+  - cookiecutter
+  - black
+  - ipython

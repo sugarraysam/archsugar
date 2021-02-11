@@ -1,0 +1,11 @@
+---
+- name: Clone archsugar to "{{ user_home }}"
+  git:
+    repo: "{{ sugar_repo }}"
+    version: "{{ sugar_repo_version }}"
+    depth: 1
+    dest: "{{ sugar_basedir }}"
+
+- name: Change archsugar ownership # noqa 301 302
+  command:
+    cmd: "chown -R {{ user }}:{{ user }} {{ sugar_basedir }}"

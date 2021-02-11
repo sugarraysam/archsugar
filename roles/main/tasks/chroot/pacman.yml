@@ -1,0 +1,51 @@
+---
+- name: Populate archlinux keys # noqa 301
+  command:
+    cmd: pacman-key --populate archlinux
+
+# Run only for real installation because it takes too long to test
+- name: Refresh pacman keyring. This might take a while... # noqa 305
+  shell:
+    cmd: "{{ command }}"
+  loop:
+    - "pacman-key --refresh-keys >/dev/null 2>&1"
+    - "pacman-key --updatedb >/dev/null 2>&1"
+  loop_control:
+    loop_var: command
+
+- name: Update mirrorlist
+  block:
+    - name: Copy old mirrors
+      copy:
+        remote_src: true
+        src: /etc/pacman.d/mirrorlist
+        dest: /etc/pacman.d/mirrorlist.old
+
+    - name: Remove old mirrorlist
+      file:
+        path: /etc/pacman.d/mirrorlist
+        state: absent
+
+    - name: Update pacman mirrors with reflector
+      command:
+        cmd: "{{ chroot_reflector_cmd }}"
+        creates: /etc/pacman.d/mirrorlist
+
+    - name: Create /etc/pacman.d/hooks/
+      file:
+        path: /etc/pacman.d/hooks
+        state: directory
+
+    - name: Copy reflector pacman hook
+      template:
+        src: "templates/chroot/mirrorupgrade.hook.j2"
+        dest: "/etc/pacman.d/hooks/mirrorupgrade.hook"
+
+- name: Clean old cache, download fresh copy of pacman database and upgrade # noqa 301
+  command:
+    cmd: "{{ command }}"
+  loop:
+    - "pacman -Scc --noconfirm -q"
+    - "pacman -Syyu --noconfirm -q"
+  loop_control:
+    loop_var: command

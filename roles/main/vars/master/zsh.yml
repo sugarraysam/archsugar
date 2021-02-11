@@ -1,0 +1,34 @@
+---
+zsh_pacman_pkgs:
+  - zsh # A very advanced and programmable command interpreter (shell) for UNIX
+  - powerline-fonts # patched fonts for powerline (required for ohmyzsh themes)
+  - fzf # Command-line fuzzy finder
+
+zsh_dirs_user:
+  - "{{ user_home }}/.zshrc.d"
+
+zsh_dotfiles_user:
+  - { src: "{{ sugar_dotfiles }}/zsh/zshrc", dest: "{{ user_home }}/.zshrc" }
+  - {
+      src: "{{ sugar_dotfiles }}/zsh/zprofile",
+      dest: "{{ user_home }}/.zprofile",
+    }
+
+zsh_git_repos:
+  - {
+      repo: https://github.com/robbyrussell/oh-my-zsh.git,
+      dest: "{{ user_home }}/.oh-my-zsh",
+      version: master,
+    }
+  - {
+      repo: "https://github.com/zsh-users/zsh-autosuggestions",
+      dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions",
+      version: master,
+    }
+
+zsh_completion_commands:
+  - {
+      cmd: "gopass completion zsh",
+      dest: /usr/share/zsh/site-functions/_gopass,
+    }
+  - { cmd: "gh completion -s zsh", dest: /usr/share/zsh/site-functions/_gh }

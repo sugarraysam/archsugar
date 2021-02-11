@@ -1,0 +1,29 @@
+---
+- name: Install required package
+  community.general.pacman:
+    name: "{{ pacman_pkgs }}"
+
+- name: Create directories
+  import_tasks: create_dirs.yml
+
+- name: Symlink dotfiles
+  import_tasks: symlink_dotfiles.yml
+
+- name: Remove files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ files_to_remove }}"
+
+- name: Download, extract and install remote binaries
+  import_tasks: remote_binaries.yml
+
+- name: Clone git repos
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version }}"
+    depth: 1
+    update: true
+    force: true
+  loop: "{{ git_repos }}"

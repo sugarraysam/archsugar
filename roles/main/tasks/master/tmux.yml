@@ -1,0 +1,57 @@
+# Install and configure tmux with dotfile and tmux-plugin-manager
+---
+- include_vars: master/tmux.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ tmux_pacman_pkgs }}"
+    dirs_user: "{{ tmux_dirs_user }}"
+    dotfiles_user: "{{ tmux_dotfiles_user }}"
+    git_repos: "{{ tmux_git_repos }}"
+
+- name: User commands for tmux
+  block:
+    - name: Validate tmux session 'main' exists
+      command:
+        cmd: tmux has-session -t main
+      register: tmux_session
+      changed_when: false
+      ignore_errors: true
+
+    - name: Create tmux session 'main' if necessary
+      command:
+        cmd: tmux new-session -d -s main
+      when: tmux_session.rc != 0
+
+    - name: Source latest changes from 'tmux.conf'
+      command:
+        cmd: "tmux source {{ user_home }}/.tmux.conf"
+      changed_when: false
+
+    - name: Manage plugins with TPM
+      command:
+        cmd: "{{ item }}"
+        chdir: "{{ user_home }}/.tmux/plugins/tpm/bin/"
+      changed_when: false
+      loop:
+        - "/bin/bash install_plugins"
+        - "/bin/bash update_plugins all"
+        - "/bin/bash clean_plugins"
+
+    - name: Find resurrect sessions older than 5d
+      find:
+        paths: "{{ user_home }}/.tmux/resurrect/"
+        age: "5d"
+        file_type: "file"
+      register: old_resurrect_sessions
+      changed_when: false
+
+    - name: Remove resurrect sessions older than 5d
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ old_resurrect_sessions.files }}"
+
+  become: true
+  become_user: "{{ user }}"

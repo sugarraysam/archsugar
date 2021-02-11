@@ -1,0 +1,30 @@
+# Configure neovim with couple of plugins managed by vim-plug
+---
+- include_vars: master/nvim.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ nvim_pacman_pkgs }}"
+    dirs_user: "{{ nvim_dirs_user }}"
+    dirs_root: "{{ nvim_dirs_root }}"
+    dotfiles_user: "{{ nvim_dotfiles_user }}"
+    dotfiles_root: "{{ nvim_dotfiles_root }}"
+
+- name: User commands
+  block:
+    - name: Install vim-plug
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "{{ user_home }}/.local/share/nvim/site/autoload/plug.vim"
+
+    - name: Install, Update & Clean plugins /w vim-plug
+      command:
+        cmd: "nvim --headless {{ item }} +qall"
+      loop:
+        - +PlugInstall!
+        - +PlugUpdate!
+        - +PlugClean!
+
+  become: true
+  become_user: "{{ user }}"

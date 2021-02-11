@@ -1,0 +1,21 @@
+# Configure iptables ipv4 and ipv6
+---
+- include_vars: master/iptables.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ iptables_pacman_pkgs }}"
+    dotfiles_root: "{{ iptables_dotfiles_root }}"
+
+- name: Enable and start iptables v4
+  systemd:
+    name: iptables
+    state: reloaded # will reload /etc/iptables/iptables.rules
+    enabled: true
+
+- name: Enable and start iptables v6
+  systemd:
+    name: ip6tables
+    state: reloaded # will reload /etc/iptables/ip6tables.rules
+    enabled: true

@@ -1,0 +1,11 @@
+---
+nodejs_pacman_pkgs:
+  - npm # A package manager for javascript
+  - nodejs # Evented I/O for V8 javascript
+
+nodejs_dirs_user:
+  - "{{ user_home }}/.node_modules"
+
+nodejs_pkgs:
+  - npm # a package manager for JavaScript
+  - prettier # ALE linters/fixers for yaml

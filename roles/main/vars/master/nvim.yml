@@ -1,0 +1,42 @@
+---
+nvim_pacman_pkgs:
+  - neovim # Fork of Vim aiming to improve user experience, plugins, and GUIs
+  - shfmt # ALE fixer for bash
+
+nvim_dirs_user:
+  - "{{ user_home }}/.local/share/nvim/site/autoload"
+  - "{{ user_home }}/.local/share/nvim/plugged"
+  - "{{ user_home }}/.config/nvim"
+  - "{{ user_home }}/.config/nvim/plugins"
+  - "{{ user_home }}/.config/nvim/debug"
+
+nvim_dirs_root:
+  - /root/.config/nvim
+
+nvim_dotfiles_user:
+  - {
+      src: "{{ sugar_dotfiles }}/nvim/init.vim",
+      dest: "{{ user_home }}/.config/nvim/init.vim",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/nvim/autocmds.vim",
+      dest: "{{ user_home }}/.config/nvim/autocmds.vim",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/nvim/plugins/vimplug.vim",
+      dest: "{{ user_home }}/.config/nvim/plugins/vimplug.vim",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/nvim/plugins/ale.vim",
+      dest: "{{ user_home }}/.config/nvim/plugins/ale.vim",
+    }
+  - {
+      src: "{{ sugar_dotfiles }}/nvim/plugins/fzf.vim",
+      dest: "{{ user_home }}/.config/nvim/plugins/fzf.vim",
+    }
+
+nvim_dotfiles_root:
+  - {
+      src: "{{ sugar_dotfiles }}/nvim/root_init.vim",
+      dest: /root/.config/nvim/init.vim,
+    }

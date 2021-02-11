@@ -1,0 +1,11 @@
+# Install and configure Xorg /w startx
+---
+- include_vars: master/X.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ X_pacman_pkgs }}"
+    dirs_root: "{{ X_dirs_root }}"
+    dotfiles_user: "{{ X_dotfiles_user }}"
+    dotfiles_root: "{{ X_dotfiles_root }}"

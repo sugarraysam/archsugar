@@ -1,0 +1,12 @@
+---
+# - <pkg_name> # Description
+vbox_pacman_pkgs:
+  - virtualbox # Powerful x86 virtualization for enterprise as well as home use
+  - virtualbox-host-modules-arch # Virtualbox host kernel modules for Arch Kernel
+  - packer # tool for creating identical machine images for multiple platforms from a single source configuration
+  - vagrant # Build and distribute virtualized development environments
+
+vbox_files_to_remove:
+  - "{{ user_home }}/VirtualBox VMs"
+
+vbox_machine_folder: "{{ user_home }}/vms"

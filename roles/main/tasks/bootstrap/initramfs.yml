@@ -1,0 +1,45 @@
+---
+# We need to setup initramfs before bootloader to avoid potential mistakes
+# Easier to do it in bootstrap stage so can use fakedisk ESP boot partition
+- name: Find out CPU manufacturer
+  command:
+    cmd: grep -i intel /proc/cpuinfo
+  register: cpuinfo
+  changed_when: false
+
+- name: Install intel microcode
+  block:
+    - name: Install package
+      command:
+        cmd: arch-chroot /mnt pacman --noconfirm -q -S intel-ucode
+        creates: /boot/intel-ucode.img
+
+    - name: Set bootstrap_cpu_manufacturer variable
+      set_fact:
+        bootstrap_cpu_manufacturer: intel
+  when: cpuinfo.stdout.find('Intel') != -1
+
+- name: Install amd microcode
+  block:
+    - name: Install package
+      command:
+        cmd: arch-chroot /mnt pacman --noconfirm -q -S amd-ucode
+        creates: /boot/amd-ucode.img
+
+    - name: Set bootstrap_cpu_manufacturer variable
+      set_fact:
+        bootstrap_cpu_manufacturer: amd
+  when: cpuinfo.stdout.find('Intel') == -1
+
+- name: Modify mkinitcpio hooks
+  replace:
+    path: /mnt/etc/mkinitcpio.conf
+    regexp: "^HOOKS=.*$"
+    replace: "HOOKS=({{ bootstrap_mkinitcpio_hooks | join(' ') }})"
+
+- name: Generate vmlinuz-linux
+  command:
+    cmd: arch-chroot /mnt mkinitcpio -P
+    creates: /mnt/boot/vmlinuz-linux
+  register: mkinitcpio
+  failed_when: "mkinitcpio.rc != 0 and 'Image generation successful' not in mkinitcpio.stdout"

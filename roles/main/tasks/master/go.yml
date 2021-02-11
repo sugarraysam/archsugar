@@ -1,0 +1,35 @@
+# Configure & clean golang environment
+---
+- include_vars: master/go.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ go_pacman_pkgs }}"
+    dirs_user: "{{ go_dirs_user }}"
+    remote_bin_archives: "{{ go_remote_bin_archives }}"
+
+- name: User commands
+  block:
+    - name: Install/Update favorite go packages
+      command:
+        cmd: "go get -u {{ item }}"
+        chdir: "{{ user_home }}" # make sure outside of a go module
+      loop: "{{ go_pkgs }}"
+
+    - name: Clean build-cache and module-cache
+      command:
+        cmd: "{{ cmd }}"
+        chdir: "{{ user_home }}"
+      loop:
+        - "go clean -cache" # {{ user_home }}/.cache/go-build
+        - "go clean -modcache" # $GOPATH/pkg/mod/
+      loop_control:
+        loop_var: cmd
+
+  become: true
+  become_user: "{{ user }}"
+  environment:
+    GO111MODULE: "auto"
+    GOPATH: "{{ go_path }}"
+    GOBIN: "{{ go_bin }}"

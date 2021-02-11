@@ -1,0 +1,10 @@
+# Install and configure i3 window manager /w lock screen and status bar
+---
+- include_vars: master/i3.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ i3_pacman_pkgs }}"
+    dirs_user: "{{ i3_dirs_user }}"
+    dotfiles_user: "{{ i3_dotfiles_user }}"

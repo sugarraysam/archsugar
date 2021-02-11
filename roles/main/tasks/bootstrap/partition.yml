@@ -1,0 +1,43 @@
+---
+- name: Set partition names
+  set_fact:
+    bootstrap_bootpart: "{{ bootstrap_disk }}1"
+    bootstrap_rootpart: "{{ bootstrap_disk }}2"
+
+- name: Delete all existing partitions
+  block:
+    - name: Find partitions (always use unit when probing)
+      parted:
+        device: "{{ bootstrap_disk }}"
+        unit: MiB
+      register: diskinfo
+
+    - name: Remove partitions
+      parted:
+        device: "{{ bootstrap_disk }}"
+        number: "{{ partition.num }}"
+        state: absent
+      loop: "{{ diskinfo.partitions }}"
+      loop_control:
+        loop_var: partition
+
+# UEFI/GPT, 260 MiB, FAT32, mounted at /boot && /root, encrypted, remaining space
+# https://wiki.archlinux.org/index.php/Partitioning#UEFI/GPT_example_layout
+- name: Create EFI partition
+  parted:
+    device: "{{ bootstrap_disk }}"
+    label: gpt
+    number: 1
+    part_start: "0%"
+    part_end: 260MiB
+    state: present
+    flags: [esp]
+
+- name: Create root partition
+  parted:
+    device: "{{ bootstrap_disk }}"
+    label: gpt
+    number: 2
+    part_start: 260MiB
+    part_end: "100%"
+    state: present

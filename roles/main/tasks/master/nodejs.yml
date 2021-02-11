@@ -1,0 +1,23 @@
+# Configure nodejs and install global packages
+---
+- include_vars: master/nodejs.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ nodejs_pacman_pkgs }}"
+    dirs_user: "{{ nodejs_dirs_user }}"
+
+- name: User commands for npm
+  block:
+    - name: Install or Update favorite node packages
+      community.general.npm:
+        name: "{{ item }}"
+        global: true
+      loop: "{{ nodejs_pkgs }}"
+
+  become: true
+  become_user: "{{ user }}"
+  environment:
+    npm_config_prefix: "{{ user_home }}/.node_modules"
+    PATH: "{{ ansible_env.PATH }}:{{ user_home }}/.node_modules/bin"

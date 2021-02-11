@@ -1,0 +1,42 @@
+---
+- name: Fail if internet is unavailable # noqa 301
+  shell:
+    cmd: "curl -Lk {{ google }} --retry 5 --silent > /dev/null"
+    warn: false
+
+- name: Check sugar_stage variable
+  fail:
+    msg: "Invalid value for sugar_stage: {{ sugar_stage }}"
+  when: sugar_stage not in ['bootstrap', 'chroot', 'master']
+
+- name: Detect if system is a virtual machine and set vars
+  block:
+    - name: Run systemd-detect-virt
+      shell:
+        cmd: "echo $(systemd-detect-virt)"
+      register: sugar_virt
+      ignore_errors: true
+
+    - name: Set sugar_virt
+      set_fact:
+        sugar_virt: "{{ sugar_virt.stdout }}"
+
+    - name: Set sugar_isvm
+      set_fact:
+        sugar_isvm: "{{ sugar_virt != 'none' }} | bool"
+
+# Only required for bare installation
+- name: Run bootstrap stage
+  include_tasks:
+    file: bootstrap/main.yml
+  when: sugar_stage == 'bootstrap' and not sugar_vagrant
+
+- name: Run chroot stage
+  include_tasks:
+    file: chroot/main.yml
+  when: sugar_stage == 'chroot'
+
+- name: Run master stage
+  include_tasks:
+    file: master/main.yml
+  when: sugar_stage == 'master'

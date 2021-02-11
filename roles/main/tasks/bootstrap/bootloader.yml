@@ -1,0 +1,55 @@
+---
+- name: Init machine-id
+  command:
+    cmd: systemd-firstboot --root=/mnt --setup-machine-id
+    creates: /mnt/etc/machine-id
+
+- name: Fail if system was not booted with UEFI variables
+  block:
+    - name: Verify UEFI variables are accessible
+      stat:
+        path: /sys/firmware/efi/efivars
+      register: efivars
+    - name: Fail if efivars are not available
+      fail:
+        msg: UEFI variables not accessible. Did the system boot in UEFI mode?
+      when: not efivars.stat.exists
+
+- name: Install bootloader
+  command:
+    cmd: arch-chroot /mnt bootctl --path=/boot install
+    creates: /mnt/boot/EFI/BOOT/BOOTX64.EFI
+
+- name: Copy loader.conf
+  copy:
+    src: files/bootstrap/loader.conf
+    dest: /mnt/boot/loader/loader.conf
+
+- name: Setup arch.conf template
+  block:
+    - name: "Get UUID of {{ bootstrap_rootpart }}"
+      command:
+        cmd: "blkid -s PARTUUID -o value {{ bootstrap_rootpart }}"
+      register: rootpart_uuid
+
+    - name: "Set {{ bootstrap_rootpart }} UUID variable"
+      set_fact:
+        bootstrap_rootpart_uuid: "{{ rootpart_uuid.stdout }}"
+
+    - name: Copy arch.conf template
+      template:
+        src: templates/bootstrap/arch.conf.j2
+        dest: /mnt/boot/loader/entries/arch.conf
+
+# pacman hook - https://wiki.archlinux.org/index.php/Systemd-boot#Automatic_update
+- name: Install pacman hook
+  block:
+    - name: Create directory
+      file:
+        path: /mnt/etc/pacman.d/hooks
+        state: directory
+
+    - name: Copy pacman hook
+      copy:
+        src: files/bootstrap/100-systemd-boot.hook
+        dest: /mnt/etc/pacman.d/hooks/100-systemd-boot.hook

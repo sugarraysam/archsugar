@@ -1,0 +1,15 @@
+Host github.com
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/github
+    AddKeysToAgent yes
+
+Host gitlab.com
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/gitlab
+    AddKeysToAgent yes
+
+Host *
+    User ubuntu
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/aws_cka
+    AddKeysToAgent yes

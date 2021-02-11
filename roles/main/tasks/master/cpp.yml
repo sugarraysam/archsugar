@@ -1,0 +1,20 @@
+# Configure and manage c++ coding ecosystem
+---
+- include_vars: master/cpp.yml
+
+- include_role:
+    name: scenario
+  vars:
+    pacman_pkgs: "{{ cpp_pacman_pkgs }}"
+
+- name: User commands
+  block:
+    - name: Download buildifier from bazeltools for BUILD files
+      get_url:
+        url: "https://github.com/bazelbuild/buildtools/releases/download/{{ cpp_buildifier_version }}/buildifier"
+        dest: "{{ user_home }}/.local/bin/buildifier"
+        mode: "0755"
+        checksum: "{{ cpp_buildifier_checksum }}"
+
+  become: true
+  become_user: "{{ user }}"

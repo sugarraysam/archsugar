@@ -1,0 +1,44 @@
+# Configure virtualbox and related tools
+---
+- include_vars: master/vbox.yml
+
+# TODO - refactor this
+- name: Install virtualbox guest-additions if OS is a virtualbox guest
+  pacman:
+    name: "{{ vbox_pacman_guest_pkgs }}"
+    state: present
+  when: sugar_isvm|bool and sugar_virt == 'oracle'
+
+# Checking support for VTx: https://wiki.archlinux.org/index.php/KVM#Checking_support_for_KVM
+- name: Verify support for Virtualization
+  shell:
+    cmd: LC_ALL=C lscpu | grep Virtualization
+  register: vtx_enabled
+
+- name: Run virtualbox scenario only when VTX is enabled
+  block:
+    - include_role:
+        name: scenario
+      vars:
+        pacman_pkgs: "{{ vbox_pacman_pkgs }}"
+        files_to_remove: "{{ vbox_files_to_remove }}"
+
+    - name: User commands
+      block:
+        # CoW needs to be disabled where hard disk images will be stored because filesystem is btrfs
+        # https://wiki.archlinux.org/index.php/QEMU#Creating_new_virtualized_system
+        # https://wiki.archlinux.org/index.php/Btrfs#Copy-on-Write_(CoW)
+        - name: Create machine folder
+          file:
+            path: "{{ vbox_machine_folder }}"
+            state: directory
+            attributes: "+C"
+
+        - name: Set machine folder
+          command:
+            cmd: "VBoxManage setproperty machinefolder {{ vbox_machine_folder }}"
+
+      become: true
+      become_user: "{{ user }}"
+
+  when: vtx_enabled.rc == 0

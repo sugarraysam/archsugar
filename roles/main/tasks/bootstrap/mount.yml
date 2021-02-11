@@ -1,0 +1,25 @@
+---
+- name: Create FAT32 fstype for EFI partition
+  filesystem:
+    dev: "{{ bootstrap_bootpart }}"
+    fstype: vfat
+    opts: -F32
+
+- name: Create btrfs fstype for root partition
+  filesystem:
+    dev: "{{ bootstrap_cryptpart }}"
+    fstype: btrfs
+
+- name: Mount root partition
+  mount:
+    path: /mnt
+    src: "{{ bootstrap_cryptpart }}"
+    fstype: btrfs
+    state: mounted
+
+- name: Mount boot partition
+  mount:
+    path: /mnt/boot
+    src: "{{ bootstrap_bootpart }}"
+    fstype: vfat
+    state: mounted
