@@ -9,7 +9,7 @@ yaml-files:
 
 ignore: |
   .venv/
-  .linters/*
+  .linters/
 
 rules:
   braces:

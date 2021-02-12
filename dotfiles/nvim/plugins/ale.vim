@@ -26,32 +26,35 @@ let g:ale_fixers = {
             \       'remove_trailing_lines',
             \       'trim_whitespace'
             \],
-            \   'python': [
-            \       'isort',
-            \       'black',
-            \],
-            \   'yaml': [
-            \       'prettier'
+            \   'cpp': [
+            \       'clang-format',
             \],
             \   'go': [
             \       'gofmt',
             \       'goimports',
             \],
-            \   'rust': [
-            \       'rustfmt',
+            \   'graphql': [
+            \       'prettier',
+            \],
+            \   'hcl': [
+            \       'terraform',
             \],
             \   'markdown': [
             \       'prettier',
             \       'textlint',
             \],
+            \   'python': [
+            \       'isort',
+            \       'black',
+            \],
+            \   'rust': [
+            \       'rustfmt',
+            \],
             \   'sh': [
             \       'shfmt',
             \],
-            \   'graphql': [
-            \       'prettier',
-            \],
-            \   'cpp': [
-            \       'clang-format',
+            \   'yaml': [
+            \       'prettier'
             \],
             \}
 

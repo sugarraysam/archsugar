@@ -13,6 +13,9 @@ augroup vimrc
     " Convert tabs to spaces on write
     autocmd BufWrite * :retab
 
+    " Set indentation 2 spaces for specific filetypes
+    autocmd FileType yaml,html,hcl setlocal ts=2 sts=2 sw=2 expandtab
+
     " --- gopass files ---"
     "  https://github.com/gopasspw/gopass/blob/master/docs/setup.md#optional-post-installation-steps
     au BufNewFile,BufRead /dev/shm/gopass.* setlocal noswapfile nobackup noundofile
@@ -21,15 +24,7 @@ augroup vimrc
     "  Set correct filetype
     autocmd BufNewFile,BufRead *.asm set filetype=nasm
 
-    " --- yaml ---
-    " Set indentation 2 spaces
-    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-
-    " --- html ---
-    " Set indentation 2 spaces
-    autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-
-    " --- html ---
+    " --- go ---
     " use real tabs in .go files, not spaces
     autocmd FileType go setlocal noexpandtab
 

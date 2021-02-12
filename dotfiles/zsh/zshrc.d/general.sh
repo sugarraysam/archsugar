@@ -33,3 +33,6 @@ alias printTerminalColors='for c in {0..255}; do tput setab $c; echo "decimal: $
 
 # shortcut for gopass show -c
 alias pass="gopass show -c"
+
+# VBoxManage friendly alias
+alias vbox="VBoxManage"

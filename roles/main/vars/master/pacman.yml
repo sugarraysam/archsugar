@@ -29,6 +29,7 @@ pacman_pacman_pkgs:
   - strace # A diagnostic, debugging and instructional userspace tracer
   - the_silver_searcher # Code searching tool similar to Ack, but faster
   - tigervnc # Suite of VNC servers and clients. Based on the VNC 4 branch of TightVNC.
+  - terraform # HashiCorp tool for building and updating infrastructure as code idempotently
   - tldr # Command line client for tldr, a collection of simplified and community-driven man pages
   - traceroute # Tracks the route taken by packets over an IP network
   - tree # A directory listing program displaying a depth indented list of files

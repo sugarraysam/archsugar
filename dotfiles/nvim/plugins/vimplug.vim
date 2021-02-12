@@ -31,5 +31,8 @@ Plug 'godlygeek/tabular'
 " toml syntax support
 Plug 'cespare/vim-toml'
 
+" hcl HashiCorp Configuration Language
+Plug 'jvirtanen/vim-hcl'
+
 " Initialize plugin system
 call plug#end()
