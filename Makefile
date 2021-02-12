@@ -16,7 +16,7 @@ paclint:
 	@packer validate packer/
 
 build:
-	@cd packer/ && packer build -force .
+	@packer build -force packer/
 
 FILES_TO_CLEAN := $(shell find . -type d -name .venv -o -name _build)
 clean:

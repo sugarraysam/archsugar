@@ -9,8 +9,8 @@ source "virtualbox-iso" "archsugar" {
   iso_url      = "${local.iso_mirror}/archlinux/iso/${local.first_of_month}/archlinux-${local.first_of_month}-x86_64.iso"
   iso_checksum = "file:${local.iso_mirror}/archlinux/iso/${local.first_of_month}/md5sums.txt"
 
-  http_directory   = "http"
-  output_directory = "_build"
+  http_directory   = "${path.root}/http"
+  output_directory = "${path.cwd}/_build"
 
   headless = var.headless
 
@@ -26,7 +26,7 @@ source "virtualbox-iso" "archsugar" {
   boot_command = [
     "<enter><wait10><wait10><wait10><wait10><wait10><wait10>",
     "/usr/bin/curl -O http://{{ .HTTPIP }}:{{ .HTTPPort }}/sshd.sh<enter><wait5>",
-    "/usr/bin/bash sshd.sh<enter>",
+    "/usr/bin/bash sshd.sh<enter><wait5>",
   ]
   shutdown_command = "echo 'vagrant' | sudo -S shutdown -P now"
 }

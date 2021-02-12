@@ -13,5 +13,5 @@ vault_password_file.sh
 group_vars/all.yml
 
 # packer
-**/packer_cache/
-**/_build
+packer_cache/
+_build/

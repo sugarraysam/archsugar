@@ -17,5 +17,5 @@ variable "memory" {
 
 variable "headless" {
   type    = bool
-  default = false
+  default = true
 }

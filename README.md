@@ -1,4 +1,4 @@
-# Archsugar
+# Archsugar ![Pipeline](https://github.com/sugarraysam/archsugar/workflows/ci/badge.svg?branch=master)
 
 ## Description
 
