@@ -1,2 +1,7 @@
-{{ user }} ALL=(ALL) ALL
+{% if sugar_vagrant %}
+vagrant ALL=(ALL) NOPASSWD: ALL
+Defaults:vagrant env_keep += "SSH_AUTH_SOCK"
+{% else %}
+{{ user }} ALL=(ALL)
 Defaults:{{ user }}     env_keep += "HTTP_PROXY HTTPS_PROXY FTP_PROXY", timestamp_timeout = 15
+{% endif %}

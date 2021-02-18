@@ -14,9 +14,9 @@
         msg: "'bootstrap_luks_passwd' is empty please set SUGAR_LUKS_PASSWD env var"
       when: not bootstrap_luks_passwd
 
-- name: Run tasks required for bare installation only
+- name: Run all tasks
   include_tasks:
-    file: "bootstrap/{{ taskfile }}"
+    file: "bootstrap/{{ item }}"
   loop:
     - partition.yml
     - cryptsetup.yml
@@ -24,6 +24,3 @@
     - pacstrap.yml
     - initramfs.yml
     - bootloader.yml
-  loop_control:
-    loop_var: taskfile
-  when: not sugar_vagrant

@@ -1,0 +1,29 @@
+---
+- name: Install virtualbox guest additions
+  community.general.pacman:
+    name: virtualbox-guest-utils
+
+- name: Enable sshd
+  systemd:
+    name: sshd
+    state: started
+    enabled: true
+
+- name: Download insecure default vagrant SSH key
+  block:
+    - name: Create ssh directory
+      file:
+        path: /home/vagrant/.ssh
+        state: directory
+        recurse: true
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+
+    - name: Download SSH public key
+      get_url:
+        url: https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
+        dest: /home/vagrant/.ssh/authorized_keys
+        owner: vagrant
+        group: vagrant
+        mode: 0600

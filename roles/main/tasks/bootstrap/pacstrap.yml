@@ -4,6 +4,12 @@
     cmd: "/usr/bin/pacstrap /mnt {{ bootstrap_pacman_pkgs | join(' ') }}"
     creates: /mnt/bin/bash
 
-- name: Generate /etc/fstab # noqa 301
+- name: Generate /etc/fstab
   shell:
     cmd: /usr/bin/genfstab -U -p /mnt > /mnt/etc/fstab
+
+- name: Copy archsugar binary
+  copy:
+    src: /usr/local/bin/archsugar
+    dest: /mnt/usr/local/bin/archsugar
+    mode: 0755

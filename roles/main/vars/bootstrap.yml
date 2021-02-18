@@ -3,25 +3,28 @@ bootstrap_disk: "{{ lookup('env', 'SUGAR_DISK') }}"
 bootstrap_luks: "sugarcrypt"
 bootstrap_luks_passwd: "{{ lookup('env', 'SUGAR_LUKS_PASSWD') }}"
 bootstrap_pacman_pkgs:
+  - ansible
   - base
   - base-devel
+  - btrfs-progs
+  - curl
+  - dhclient
+  - git
+  - gnupg
   - linux
   - linux-firmware
-  - mkinitcpio
-  - git
-  - curl
-  - reflector
-  - python
-  - ansible
-  - networkmanager
-  - dhclient
-  - zsh
-  - gnupg
-  - vim
-  - vi
-  - tmux
-  - xclip
   - man
+  - mkinitcpio
+  - networkmanager
+  - openssh
+  - python
+  - reflector
+  - tmux
+  - vi
+  - vim
+  - xclip
+  - yay
+  - zsh
 bootstrap_mkinitcpio_hooks:
   - base
   - udev

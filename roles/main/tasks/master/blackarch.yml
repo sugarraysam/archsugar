@@ -2,7 +2,7 @@
 ---
 - include_vars: master/blackarch.yml
 
-- name: Check if blackarch repository exists # noqa 301
+- name: Check if blackarch repository exists
   shell:
     cmd: pacman -Sl blackarch >/dev/null 2>&1
     warn: false

@@ -6,7 +6,6 @@ base_pacman_pkgs:
   - gnupg # Complete and free implementation of the OpenPGP
   - gopass # The slightly more awesome standard unix password manager for teams
   - pinentry # Collection of simple PIN or passphrase entry dialogs which utilize the Assuan protocol
-  - openssh # Premier connectivity tool for remote login with the SSH protocol
   - keychain # A front-end to ssh-agent, allowing one long-running ssh-agent process per system, rather than per login
 
 base_dirs_user:

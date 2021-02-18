@@ -1,26 +1,6 @@
 ---
-chroot_user_passwd: "{{ lookup('env', 'SUGAR_USER_PASSWD') | default('user', true) }}"
-chroot_root_passwd: "{{ lookup('env', 'SUGAR_ROOT_PASSWD') | default('root', true) }}"
-chroot_swapsize_MB: "16384"
+chroot_swapsize_mb: "16384"
 
 # required by templates/chroot/mirrorupgrade.hook.j2
 chroot_reflector_cmd: "reflector -c 'United States' -l 50 -a 24 --sort rate \
   -p http -p https --save /etc/pacman.d/mirrorlist"
-
-chroot_vagrant_pacman_pkgs:
-  - base
-  - base-devel
-  - linux
-  - linux-firmware
-  - git
-  - curl
-  - reflector
-  - python
-  - ansible
-  - zsh
-  - gnupg
-  - vim
-  - vi
-  - tmux
-  - xclip
-  - man

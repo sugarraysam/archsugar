@@ -2,54 +2,28 @@
 - name: Load variables
   include_vars: chroot.yml
 
-- name: Check chroot_user_passwd is not default
-  fail:
-    msg: "'chroot_user_passwd' is using default value, please set SUGAR_USER_PASSWD env var"
-  when: chroot_user_passwd == 'user'
+- name: Run all tasks
+  include_tasks:
+    file: "chroot/{{ item }}"
+  loop:
+    - clock.yml
+    - languages.yml
+    - user.yml
+    - pacman.yml
+    - systemd.yml
+    - swap.yml
 
-- name: Check chroot_root_passwd is not default
-  fail:
-    msg: "'chroot_root_passwd' is using default value, please set SUGAR_ROOT_PASSWD env var"
-  when: chroot_root_passwd == 'root'
+- name: Extra task for vagrant install
+  include_tasks:
+    file: "chroot/vagrant.yml"
+  when: sugar_vagrant|bool
 
-- name: Run tasks for both bare install and vagrant provisioning
-  block:
-    - name: Make sure pacman pkgs are installed for Vagrant
-      pacman:
-        name: "{{ chroot_vagrant_pacman_pkgs }}"
-      when: sugar_vagrant|bool
-
-    - name: Run tasks
-      include_tasks:
-        file: "chroot/{{ taskfile }}"
-      loop:
-        - clock.yml
-        - languages.yml
-        - user.yml
-        - pacman.yml
-      loop_control:
-        loop_var: taskfile
-
-- name: Run tasks only required for bare installation
-  block:
-    - name: Run tasks
-      include_tasks:
-        file: "chroot/{{ taskfile }}"
-      loop:
-        - system.yml
-        - archsugar.yml
-      loop_control:
-        loop_var: taskfile
-
-    - name: Unmount partitions
-      mount:
-        path: "{{ mountpoint }}"
-        state: unmounted
-      loop:
-        - /mnt/boot
-        - /mnt
-      loop_control:
-        loop_var: mountpoint
-      ignore_errors: true
-      notify: restart message
-  when: not sugar_vagrant
+- name: Unmount partitions
+  mount:
+    path: "{{ item }}"
+    state: unmounted
+  loop:
+    - /mnt/boot
+    - /mnt
+  ignore_errors: true
+  notify: restart message

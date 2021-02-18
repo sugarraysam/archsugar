@@ -10,7 +10,7 @@
   loop_control:
     loop_var: lang
 
-- name: Run locale-gen # noqa 301
+- name: Run locale-gen
   command:
     cmd: locale-gen
 

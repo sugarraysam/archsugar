@@ -159,19 +159,21 @@ assign [class="electron"] 2
 assign [class="Electron"] 2
 
 assign [class="firefox"] 3
-assign [class="Chromium"] 3
+assign [class="okular"] 3
 
-assign [class="okular"] 4
-assign [class="Wireshark-gtk"] 4
-assign [class="burp-StartBurp"] 4
-assign [class="calibre"] 4
-assign [class="Pavucontrol"] 4
-assign [class="VirtualBox Manager"] 4
-assign [class="libreoffice" ] 4
+assign [class="Chromium"] 4
 
+assign [class="Wireshark-gtk"] 5
+assign [class="burp-StartBurp"] 5
+assign [class="calibre"] 5
+assign [class="Pavucontrol"] 5
+assign [class="libreoffice" ] 5
+assign [class="VirtualBox Manager"] 5
 assign [class="CoppeliaSim"] 5
 assign [class="rdesktop"] 5
 assign [class="gazebo"] 5
+
+assign [class="zoom"] 6
 
 
 ###

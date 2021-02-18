@@ -32,3 +32,6 @@ jobs:
 
       - name: packer-build
         run: make build
+        env:
+          PKR_VAR_archsugar_version: "0.2.0"
+          PKR_VAR_keep_registered: false

@@ -1,0 +1,27 @@
+# https://wiki.archlinux.org/index.php/Swap#Swap_file
+- name: Custom commands for btrfs filesystem
+  command:
+    cmd: "{{ item }}"
+  loop:
+    - truncate -s 0 /swapfile
+    - chattr +C /swapfile
+    - btrfs property set /swapfile compression none
+
+- name: Create /swapfile with dd
+  command:
+    cmd: "dd if=/dev/zero of=/swapfile bs=1M count={{ chroot_swapsize_mb }}"
+
+- name: Set permissions on /swapfile
+  file:
+    path: /swapfile
+    mode: "0600"
+
+- name: Write swap header
+  command:
+    cmd: mkswap /swapfile
+  changed_when: false
+
+- name: Add entry to /etc/fstab
+  lineinfile:
+    path: /etc/fstab
+    line: "/swapfile none swap sw 0 0"

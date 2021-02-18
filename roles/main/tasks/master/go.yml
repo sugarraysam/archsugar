@@ -16,6 +16,7 @@
         cmd: "go get -u {{ item }}"
         chdir: "{{ user_home }}" # make sure outside of a go module
       loop: "{{ go_pkgs }}"
+      ignore_errors: true
 
     - name: Clean build-cache and module-cache
       command:

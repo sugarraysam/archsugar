@@ -15,11 +15,9 @@
     - name: Remove partitions
       parted:
         device: "{{ bootstrap_disk }}"
-        number: "{{ partition.num }}"
+        number: "{{ item.num }}"
         state: absent
       loop: "{{ diskinfo.partitions }}"
-      loop_control:
-        loop_var: partition
 
 # UEFI/GPT, 260 MiB, FAT32, mounted at /boot && /root, encrypted, remaining space
 # https://wiki.archlinux.org/index.php/Partitioning#UEFI/GPT_example_layout

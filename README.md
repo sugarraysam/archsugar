@@ -10,4 +10,7 @@ It also symlinks files under `dotfiles/**/*` to various location on your filesys
 
 # Resources
 
+- [sugarraysam/archsugar-cli](https://github.com/sugarraysam/archsugar-cli)
 - [elasticdog/packer-arch](https://github.com/elasticdog/packer-arch/blob/master/arch-template.json)
+- [Packer virtualbox-iso builder](https://www.packer.io/docs/builders/virtualbox/iso)
+- [HCL2 built-in functions](https://www.packer.io/docs/from-1.5/functions)

@@ -15,7 +15,14 @@ variable "memory" {
   description = "in megabytes"
 }
 
-variable "headless" {
-  type    = bool
-  default = true
+variable "archsugar_version" {
+  type        = string
+  default     = "0.2.0"
+  description = "Version of archsugar-cli to install (without the 'v' prefix)"
+}
+
+variable "keep_registered" {
+  type        = bool
+  default     = true
+  description = "Keep VM registered /w vbox for easy debugging, disable for CI"
 }

@@ -4,20 +4,13 @@
   user:
     name: "{{ user }}"
     shell: /usr/bin/zsh
-    password: "{{ chroot_user_passwd | password_hash('sha512') }}"
+    password: "{{ user_passwd | password_hash('sha512') }}"
     groups: "{{ user_groups }}"
-
-- name: Setup vagrant ssh for user - copy the already existing vagrant ssh key
-  copy:
-    src: /home/vagrant/.ssh
-    dest: "{{ user_home }}/.ssh"
-    remote_src: true
-  when: sugar_vagrant|bool
 
 - name: Update root password
   user:
     name: root
-    password: "{{ chroot_root_passwd | password_hash('sha512') }}"
+    password: "{{ root_passwd | password_hash('sha512') }}"
 
 - name: Copy sudo template
   template:

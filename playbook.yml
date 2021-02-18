@@ -20,15 +20,18 @@
     sugar_scenarios: "{{ lookup('env', 'SUGAR_SCENARIOS') | default('all', true) }}"
     sugar_stage: "{{ lookup('env', 'SUGAR_STAGE') }}"
     sugar_vagrant: "{{ lookup('env', 'SUGAR_VAGRANT') | default(false, true) }}"
-    sugar_isvm: false
 
     # user
     user: "{{ lookup('env', 'SUGAR_USER') | default('sugar', true) }}"
+    user_passwd: "{{ lookup('env', 'SUGAR_USER_PASSWD') | default('user', true) }}"
     user_groups:
       - wheel
       - uucp
     user_home: "/home/{{ user }}"
     user_TODO: "{{ user_home }}/TODO"
+
+    # root
+    root_passwd: "{{ lookup('env', 'SUGAR_ROOT_PASSWD') | default('root', true) }}"
 
     # general
     timezone: "America/Chicago"

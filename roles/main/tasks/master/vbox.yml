@@ -2,13 +2,6 @@
 ---
 - include_vars: master/vbox.yml
 
-# TODO - refactor this
-- name: Install virtualbox guest-additions if OS is a virtualbox guest
-  pacman:
-    name: "{{ vbox_pacman_guest_pkgs }}"
-    state: present
-  when: sugar_isvm|bool and sugar_virt == 'oracle'
-
 # Checking support for VTx: https://wiki.archlinux.org/index.php/KVM#Checking_support_for_KVM
 - name: Verify support for Virtualization
   shell:
