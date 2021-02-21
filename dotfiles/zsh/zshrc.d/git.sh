@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # list branches verbose
-alias gbavv='git branch -vva'
+alias gba='git branch --list'
 
 # commit history short /w signed commit
 alias glg='git log --pretty="format:%h %G? %aN  %s"'

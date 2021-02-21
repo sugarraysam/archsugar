@@ -34,5 +34,8 @@ Plug 'cespare/vim-toml'
 " hcl HashiCorp Configuration Language
 Plug 'jvirtanen/vim-hcl'
 
+" saltstack edit .sls files
+Plug 'saltstack/salt-vim'
+
 " Initialize plugin system
 call plug#end()

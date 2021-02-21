@@ -6,3 +6,22 @@
     name: scenario
   vars:
     pacman_pkgs: "{{ devops_pacman_pkgs }}"
+
+# https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+# Wait for pacman repos to update to v2 than remove this
+- name: Install aws-cli v2
+  block:
+    - name: Get awscli zip
+      unarchive:
+        src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+        dest: /tmp/
+        remote_src: true
+
+    - name: Install aws
+      command:
+        cmd: /bin/sh /tmp/aws/install --update
+
+    - name: Cleanup
+      file:
+        path: /tmp/aws
+        state: absent

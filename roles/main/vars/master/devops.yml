@@ -4,6 +4,5 @@ devops_pacman_pkgs:
   - aws-cli # Universal Command Line Interface for Amazon Web Services
   - github-cli # The github CLI
   - packer # tool for creating identical machine images for multiple platforms from a single source configuration
-  - salt # Central system and configuration manager
   # conflicts /w tfenv - terraform # HashiCorp tool for building and updating infrastructure as code idempotently
   - vagrant # Build and distribute virtualized development environments

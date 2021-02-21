@@ -26,6 +26,14 @@
       command:
         cmd: kubectl krew update
 
+    - name: Add helm repos
+      command:
+        cmd: "helm repo add {{ item.name }} {{ item.url }}"
+      loop: "{{ k8s_helm_repositories }}"
+
+    - name: Update helm repos
+      command:
+        cmd: helm repo update
   become: true
   become_user: "{{ user }}"
   environment:
