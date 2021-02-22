@@ -28,7 +28,6 @@
     - name: Update pacman mirrors with reflector
       command:
         cmd: "{{ chroot_reflector_cmd }}"
-        creates: /etc/pacman.d/mirrorlist
 
     - name: Create /etc/pacman.d/hooks/
       file:

@@ -8,7 +8,7 @@ ARCHSUGAR_URL="https://github.com/sugarraysam/archsugar-cli/releases/download/v$
 # Make sure there will be enough space on the live ISO
 function resizeRootfs() {
     if [ -d /run/archiso ]; then
-        mount -o remount,size=2G /run/archiso/cowspace
+        mount -o remount,size=5G /run/archiso/cowspace
     fi
 }
 

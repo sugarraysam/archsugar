@@ -7,13 +7,13 @@
 - name: Delete all existing partitions
   block:
     - name: Find partitions (always use unit when probing)
-      parted:
+      community.general.parted:
         device: "{{ bootstrap_disk }}"
         unit: MiB
       register: diskinfo
 
     - name: Remove partitions
-      parted:
+      community.general.parted:
         device: "{{ bootstrap_disk }}"
         number: "{{ item.num }}"
         state: absent
@@ -22,7 +22,7 @@
 # UEFI/GPT, 260 MiB, FAT32, mounted at /boot && /root, encrypted, remaining space
 # https://wiki.archlinux.org/index.php/Partitioning#UEFI/GPT_example_layout
 - name: Create EFI partition
-  parted:
+  community.general.parted:
     device: "{{ bootstrap_disk }}"
     label: gpt
     number: 1
@@ -32,7 +32,7 @@
     flags: [esp]
 
 - name: Create root partition
-  parted:
+  community.general.parted:
     device: "{{ bootstrap_disk }}"
     label: gpt
     number: 2

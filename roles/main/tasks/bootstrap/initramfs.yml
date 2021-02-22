@@ -12,7 +12,6 @@
     - name: Install package
       command:
         cmd: arch-chroot /mnt pacman --noconfirm -q -S intel-ucode
-        creates: /boot/intel-ucode.img
 
     - name: Set bootstrap_cpu_manufacturer variable
       set_fact:
@@ -24,7 +23,6 @@
     - name: Install package
       command:
         cmd: arch-chroot /mnt pacman --noconfirm -q -S amd-ucode
-        creates: /boot/amd-ucode.img
 
     - name: Set bootstrap_cpu_manufacturer variable
       set_fact:
@@ -40,6 +38,5 @@
 - name: Generate vmlinuz-linux
   command:
     cmd: arch-chroot /mnt mkinitcpio -P
-    creates: /mnt/boot/vmlinuz-linux
   register: mkinitcpio
   failed_when: "mkinitcpio.rc != 0 and 'Image generation successful' not in mkinitcpio.stdout"

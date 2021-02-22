@@ -2,7 +2,6 @@
 - name: Init machine-id
   command:
     cmd: systemd-firstboot --root=/mnt --setup-machine-id
-    creates: /mnt/etc/machine-id
 
 - name: Fail if system was not booted with UEFI variables
   block:
@@ -18,7 +17,6 @@
 - name: Install bootloader
   command:
     cmd: arch-chroot /mnt bootctl --path=/boot install
-    creates: /mnt/boot/EFI/BOOT/BOOTX64.EFI
 
 - name: Copy loader.conf
   copy:

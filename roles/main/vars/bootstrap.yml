@@ -23,7 +23,7 @@ bootstrap_pacman_pkgs:
   - vi
   - vim
   - xclip
-  - yay
+  # - yay - not present yet (available in blackarch)
   - zsh
 bootstrap_mkinitcpio_hooks:
   - base
