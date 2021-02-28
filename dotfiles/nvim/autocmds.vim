@@ -32,4 +32,8 @@ augroup vimrc
     "  Comment highlighting for coc.nvim config
     autocmd FileType json syntax match Comment +\/\/.\+$+
 
+    " TODO == ALE expecting ft=salt, but salt-vim is expecting ft=sls
+    " --- salt ---
+    autocmd FileType jinja,jinja2 set filetype=sls
+
 augroup END

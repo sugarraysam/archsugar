@@ -6,3 +6,6 @@ devops_pacman_pkgs:
   - packer # tool for creating identical machine images for multiple platforms from a single source configuration
   # conflicts /w tfenv - terraform # HashiCorp tool for building and updating infrastructure as code idempotently
   - vagrant # Build and distribute virtualized development environments
+
+devops_zsh_completions:
+  - { cmd: "gh completion -s zsh", dest: "_gh" }

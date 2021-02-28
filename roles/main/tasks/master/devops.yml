@@ -6,6 +6,7 @@
     name: scenario
   vars:
     pacman_pkgs: "{{ devops_pacman_pkgs }}"
+    zsh_completions: "{{ devops_zsh_completions }}"
 
 # https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 # Wait for pacman repos to update to v2 than remove this

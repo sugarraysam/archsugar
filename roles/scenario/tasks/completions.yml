@@ -1,0 +1,10 @@
+---
+- name: User commands
+  block:
+    - name: Refresh zsh completions
+      shell:
+        cmd: "{{ item.cmd }} > /usr/share/zsh/site-functions/{{ item.dest }}"
+      loop: "{{ zsh_completions }}"
+
+  become: true
+  become_user: "{{ user }}"

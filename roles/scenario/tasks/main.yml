@@ -19,11 +19,7 @@
   import_tasks: remote_binaries.yml
 
 - name: Clone git repos
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ item.dest }}"
-    version: "{{ item.version }}"
-    depth: 1
-    update: true
-    force: true
-  loop: "{{ git_repos }}"
+  import_tasks: clone_git_repos.yml
+
+- name: Refresh zsh completions
+  import_tasks: completions.yml

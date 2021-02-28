@@ -1,24 +1,13 @@
-TARGETS := pydeps anslint paclint build
+TARGETS := validate build
 .PHONY: $(TARGETS)
 
-export SHELL := /bin/bash
-
-pydeps:
-	@if [ ! -d ".venv" ]; then python3 -m venv .venv; fi
-	@.venv/bin/pip install -U pip
-	@.venv/bin/pip install -r requirements.txt
-
-anslint: pydeps
-	@.venv/bin/yamllint -c .linters/yamllint.yml .
-	@.venv/bin/ansible-lint -c .linters/ansible-lint.yml
-
-paclint:
+validate:
 	@packer validate packer/
 
 build:
 	@packer build -force packer/
 
-FILES_TO_CLEAN := $(shell find . -type d -name .venv -o -name _build)
+FILES_TO_CLEAN := $(shell find . -type d -name _build)
 clean:
 	@echo "Files to clean: $(FILES_TO_CLEAN)"
 	@rm -fr $(FILES_TO_CLEAN)

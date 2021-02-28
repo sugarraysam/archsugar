@@ -50,3 +50,18 @@ base_files_to_remove:
   - "{{ user_home }}/.bash_profile"
   - "{{ user_home }}/.bashrc"
   - "{{ user_home }}/Desktop"
+  - "/usr/local/bin/archsugar" # remove archsugar binary from initial install
+
+base_remote_bin_archives:
+  - {
+      name: archsugar,
+      version: "0.2.2",
+      urlfmt: "https://github.com/sugarraysam/archsugar-cli/releases/download/v%%/archsugar-cli_%%_linux_amd64.tar.gz",
+    }
+
+base_zsh_completions:
+  - { cmd: "gopass completion zsh", dest: "_gopass" }
+  - {
+      cmd: "{{ user_home }}/.local/bin/archsugar completion", # bin won't be in path on first run
+      dest: "_archsugar",
+    }

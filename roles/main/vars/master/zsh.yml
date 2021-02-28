@@ -16,7 +16,7 @@ zsh_dotfiles_user:
 
 zsh_git_repos:
   - {
-      repo: https://github.com/robbyrussell/oh-my-zsh.git,
+      repo: "https://github.com/robbyrussell/oh-my-zsh.git",
       dest: "{{ user_home }}/.oh-my-zsh",
       version: master,
     }
@@ -25,10 +25,3 @@ zsh_git_repos:
       dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions",
       version: master,
     }
-
-zsh_completion_commands:
-  - {
-      cmd: "gopass completion zsh",
-      dest: /usr/share/zsh/site-functions/_gopass,
-    }
-  - { cmd: "gh completion -s zsh", dest: /usr/share/zsh/site-functions/_gh }

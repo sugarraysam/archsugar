@@ -16,3 +16,4 @@ python_pkgs:
   - cookiecutter
   - black
   - ipython
+  - pre-commit

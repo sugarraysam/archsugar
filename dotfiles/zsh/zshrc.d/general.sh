@@ -4,8 +4,9 @@
 ### alias <name>="<command>"
 ###
 
-# archsugar
+# shortcut for archsugar + fix completions
 alias sug="archsugar"
+complete -F __start_archsugar sug
 
 # Replace ls with lsf
 alias ls="lsd"

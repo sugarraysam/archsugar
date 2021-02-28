@@ -26,3 +26,7 @@ remote_bin: []
 # Clone git repos
 # { repo: <repo>, dest: <dest>, version: <branch/tag> }
 git_repos: []
+
+# Output zsh completion commands to /usr/share/zsh/site-functions/
+# { cmd: <repo>, dest: <dest> }
+zsh_completions: []

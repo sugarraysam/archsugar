@@ -11,4 +11,4 @@
   copy:
     src: /usr/local/bin/archsugar
     dest: /mnt/usr/local/bin/archsugar
-    mode: 0755
+    mode: "0755"

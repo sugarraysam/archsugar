@@ -1,0 +1,15 @@
+---
+- name: User commands
+  block:
+    - name: Clone git repos
+      git:
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        version: "{{ item.version }}"
+        depth: 1
+        update: true
+        force: true
+      loop: "{{ git_repos }}"
+
+  become: true
+  become_user: "{{ user }}"

@@ -1,9 +1,10 @@
 ---
 k8s_pacman_pkgs:
-  - kubectl # Kubernetes.io client binary
-  - k9s # TUI for managing Kubernetes clusters and pods\
-  - helm # The Kubernetes Package Manager
   - eksctl # Command line tool for creating clusters on Amazon EKS
+  - helm # The Kubernetes Package Manager
+  - kubectl # Kubernetes.io client binary
+  - kubeseal # A Kubernetes controller and tool for one-way encrypted Secrets
+  - k9s # TUI for managing Kubernetes clusters and pods\
 
 k8s_dirs_user:
   - "{{ user_home }}/.kube"
@@ -31,3 +32,14 @@ k8s_helm_repositories:
   - { name: stable, url: "https://charts.helm.sh/stable" }
   - { name: bitnami, url: "https://charts.bitnami.com/bitnami" }
   - { name: k8s-at-home, url: "https://k8s-at-home.com/charts/" }
+  - { name: hashicorp, url: "https://helm.releases.hashicorp.com" }
+  - {
+      name: sealed-secrets,
+      url: "https://bitnami-labs.github.io/sealed-secrets",
+    }
+  - { name: grafana, url: "https://grafana.github.io/helm-charts" }
+
+k8s_zsh_completions:
+  - { cmd: "helm completion zsh", dest: "_helm" }
+  - { cmd: "kubectl completion zsh", dest: "_kubectl" }
+  - { cmd: "eksctl completion zsh", dest: "_eksctl" }

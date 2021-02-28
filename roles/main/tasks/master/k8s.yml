@@ -9,6 +9,7 @@
     dirs_user: "{{ k8s_dirs_user }}"
     remote_bin: "{{ k8s_remote_bin }}"
     remote_bin_archives: "{{ k8s_remote_bin_archives }}"
+    zsh_completions: "{{ k8s_zsh_completions }}"
 
 - name: User commands
   block:
@@ -24,7 +25,10 @@
 
     - name: Update krew
       command:
-        cmd: kubectl krew update
+        cmd: "{{ item }}"
+      loop:
+        - kubectl krew update
+        - kubectl krew upgrade
 
     - name: Add helm repos
       command:

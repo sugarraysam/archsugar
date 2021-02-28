@@ -2,6 +2,14 @@
 ---
 - include_vars: master/base.yml
 
+- name: User owns completion directory
+  file:
+    path: /usr/share/zsh/site-functions
+    state: directory
+    recurse: true
+    group: "{{ user }}"
+    owner: "{{ user }}"
+
 - include_role:
     name: scenario
   vars:
@@ -11,6 +19,8 @@
     dotfiles_user: "{{ base_dotfiles_user }}"
     dotfiles_root: "{{ base_dotfiles_root }}"
     files_to_remove: "{{ base_files_to_remove }}"
+    remote_bin_archives: "{{ base_remote_bin_archives }}"
+    zsh_completions: "{{ base_zsh_completions }}"
 
 - name: Run systemd configuration commands
   command:

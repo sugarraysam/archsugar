@@ -16,12 +16,6 @@
     regex: "^sugar.*$"
     line: "{{ user }}:x:1000:1000::{{ user_home }}:/usr/bin/zsh"
 
-- name: Setup zsh autocompletion for binaries
-  shell:
-    cmd: "{{ item.cmd }} > {{ item.dest }}"
-    warn: false
-  loop: "{{ zsh_completion_commands }}"
-
 - name: User commands for zsh
   block:
     # 'item' is absolute path to symlink source file

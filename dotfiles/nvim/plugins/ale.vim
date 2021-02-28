@@ -24,7 +24,7 @@ let g:ale_use_global_executables = 1
 let g:ale_fixers = {
             \   '*': [
             \       'remove_trailing_lines',
-            \       'trim_whitespace'
+            \       'trim_whitespace',
             \],
             \   'cpp': [
             \       'clang-format',
@@ -47,6 +47,9 @@ let g:ale_fixers = {
             \       'isort',
             \       'black',
             \],
+            \   'ruby': [
+            \       'rubocop',
+            \],
             \   'rust': [
             \       'rustfmt',
             \],
@@ -54,7 +57,7 @@ let g:ale_fixers = {
             \       'shfmt',
             \],
             \   'yaml': [
-            \       'prettier'
+            \       'prettier',
             \],
             \}
 
@@ -62,15 +65,22 @@ let g:ale_fixers = {
 """
 """ Linters configuration
 """
+" TODO - Conflict between ft=salt for ALE and ft=sls for salt-vim syntax
+" plugin
 let g:ale_linters = {
-            \   'python': ['flake8', 'pylint'],
+            \   'python': [
+            \       'flake8',
+            \       'pylint',
+            \],
+            \   'ruby': [
+            \       'rubocop',
+            \],
+            \   'salt': [
+            \       'salt-lint',
+            \],
             \}
 
 let g:ale_python_flake8_options = '--max-line-length=100'
-
-"""
-""" Completion, TODO (wait for LSP to be more mature)
-"""
 
 
 """

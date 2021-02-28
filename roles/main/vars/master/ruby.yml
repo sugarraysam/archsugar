@@ -3,6 +3,8 @@ ruby_pacman_pkgs:
   - ruby-irb # Interactive Ruby command-line tool for REPL (Read Eval Print Loop).
   - rubygems # Package management framework for Ruby
 
+# $ gem info -r <gem>
 ruby_gems:
   - bundler # Bundler manages an application's dependencies through its entire life
   - rdoc # RDoc produces HTML and command-line documentation for Ruby projects
+  - rubocop # Automatic Ruby code style checking tool.

@@ -1,18 +1,19 @@
 ---
 blackarch_pacman_pkgs:
-  - gef # Multi-Architecture GDB Enhanced Features for Exploiters & Reverse-Engineers
-  - gobuster # Directory/file & DNS busting tool written in Go
+  - aircrack-ng # Graphing tool for the aircrack suite
+  - binwalk # A tool for searching a given binary image for embedded files
   - burpsuite # An integrated platform for attacking web applications (free edition)
   - dnsrecon # Python script for enumeration of hosts, subdomains and emails from a given domain using google
-  - metasploit # Advanced open-source platform for developing, testing, and using exploit code
-  - rkhunter # Checks machines for the presence of rootkits and other unwanted tools
-  - binwalk # A tool for searching a given binary image for embedded files
-  - steghide # Embeds a message in a file by replacing some of the least significant bits
-  - radare2 # Open-source tools to disasm, debug, analyze and manipulate binary files
   - exploitdb # Offensive Security’s Exploit Database Archive
+  - gef # Multi-Architecture GDB Enhanced Features for Exploiters & Reverse-Engineers
+  - gobuster # Directory/file & DNS busting tool written in Go
+  - metasploit # Advanced open-source platform for developing, testing, and using exploit code
+  - radare2 # Open-source tools to disasm, debug, analyze and manipulate binary files
+  - rkhunter # Checks machines for the presence of rootkits and other unwanted tools
   - sqlmap # Automatic SQL injection and database takeover tool
+  - steghide # Embeds a message in a file by replacing some of the least significant bits
   - sublist3r # A Fast subdomains enumeration tool for penetration testers
-  - aircrack-ng # Graphing tool for the aircrack suite
+  - yay # Yet another yogurt. Pacman wrapper and AUR helper written in go
 
 blackarch_dirs_user:
   - "{{ user_home }}/opt/blackarch"
