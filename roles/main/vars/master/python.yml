@@ -10,10 +10,13 @@ python_files_to_remove:
   - "{{ user_home }}/.cache/pip"
 
 python_pkgs:
+  - autopep8
+  - black
+  - cookiecutter
+  - flake8
+  - ipython
+  - isort
   - pip
   - pipenv
-  - wheel
-  - cookiecutter
-  - black
-  - ipython
   - pre-commit
+  - wheel

@@ -3,6 +3,9 @@
 # list branches verbose
 alias gba='git branch --list'
 
+# commit without adding everything
+alias gcm="git commit -m"
+
 # commit history short /w signed commit
 alias glg='git log --pretty="format:%h %G? %aN  %s"'
 

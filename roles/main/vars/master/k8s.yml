@@ -38,6 +38,11 @@ k8s_helm_repositories:
       url: "https://bitnami-labs.github.io/sealed-secrets",
     }
   - { name: grafana, url: "https://grafana.github.io/helm-charts" }
+  - { name: influxdata, url: "https://helm.influxdata.com/" }
+  - {
+      name: prometheus-community,
+      url: "https://prometheus-community.github.io/helm-charts",
+    }
 
 k8s_zsh_completions:
   - { cmd: "helm completion zsh", dest: "_helm" }

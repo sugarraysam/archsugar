@@ -8,15 +8,9 @@ Host gitlab.com
     IdentityFile ~/.ssh/gitlab
     AddKeysToAgent yes
 
-Host covariant-hq-*
+Host *
     User sugarraysam
     IdentitiesOnly yes
     IdentityFile ~/.ssh/sugarraysam.id_rsa
     AddKeysToAgent yes
     ForwardAgent yes
-
-Host *
-    User ubuntu
-    IdentitiesOnly yes
-    IdentityFile ~/.ssh/aws_cov
-    AddKeysToAgent yes

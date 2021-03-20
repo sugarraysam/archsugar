@@ -44,8 +44,9 @@ let g:ale_fixers = {
             \       'textlint',
             \],
             \   'python': [
-            \       'isort',
+            \       'autopep8',
             \       'black',
+            \       'isort',
             \],
             \   'ruby': [
             \       'rubocop',

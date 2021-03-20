@@ -37,3 +37,9 @@ alias pass="gopass show -c"
 
 # VBoxManage friendly alias
 alias vbox="VBoxManage"
+
+# use --auto-rotate on feh by default
+alias feh="feh --auto-rotate"
+
+# set watch default interval to 1 second
+alias watch="watch -n 1"

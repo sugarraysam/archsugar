@@ -4,6 +4,7 @@ pacman_pacman_pkgs:
   - asp # Arch Linux build source file management tool (retrieve PKGBUILD)
   - bat # Cat clone with syntax highlighting and git integration
   - calibre # Ebook management application (experimental python3 port)
+  - cdrtools # Original cdrtools supporting CD, DVD and BluRay burning (provides mkisofs)
   - chromium # A web browser built for speed, simplicity, and security
   - cowsay # Configurable talking cow (and a few other creatures)
   - fd # Simple, fast and user-friendly alternative to find (written in Rust)

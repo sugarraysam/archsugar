@@ -62,6 +62,7 @@
         - { name: user.email, value: "{{ git_email }}" }
         - { name: merge.conflictstyle, value: diff3 }
         - { name: branch.autosetuprebase, value: always }
+        - { name: advice.addIgnoredFile, value: false }
 
     - name: Set permissions on ~/.gnupg
       file:
